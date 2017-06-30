@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row" ng-controller="textCtrl">
+        <div class="thumbnail col-md-2 col-sm-6" ng-repeat="ticket in tickets[0]" style="width:19%;margin-left:10px;border-radius:0px;" ng-mouseover="open = true" ng-mouseleave="open = false">
+            <div class="jumbotron" style="padding-top: 3px;padding-bottom: 1px;padding-left: 10px;padding-right:0px">
+                <p style="font-family: 'Ubuntu', sans-serif;font-size:18px;color:white;text-align:center">{{ticket.name}}
+                    <span class="pull-right">
+                                <button type="button" style="border:none;background-color:#00A7D8;outline:none" class="btn btn-default btn-xs" aria-label="Left Align" ng-show="open" ng-click="showModal()">
+                        <span class="glyphicon glyphicon-download" aria-hidden="true"  style="color:white"></span>
+                    </button>
+                    <button type="button" style="border:none;background-color:#00A7D8;outline:none" class="btn btn-xs btn-default" aria-label="Left Align" data-toggle="modal" data-target="#product_view" ng-show="open">
+                        <span class="glyphicon glyphicon-resize-full" aria-hidden="true"  style="color:white"></span>
+                            </button>
+                    </span>
+                </p>
+            </div>
+            <p style="font-family: 'Ubuntu', sans-serif;">Total</p>
+            <h2 style="padding-top:20px;text-align:center;font-family: 'Orbitron', sans-serif;">{{ticket.count}}</h2>
+        </div>
+    </div>
+</div>

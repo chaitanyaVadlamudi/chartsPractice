@@ -1,0 +1,11 @@
+.navbar-default {
+    background-color: #34C6BB
+}
+
+.jumbotron {
+    background-color: #00A7D8
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: white
+}
