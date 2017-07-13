@@ -1,9 +1,17 @@
 angular.module("controllers")
-    .controller("horizontalStackCtrl", ["$scope", function ($scope) {
+    .controller("horizontalStackCtrl", ["$scope", "$uibModal", function ($scope, $uibModal) {
+        $scope.caption = "Incidents by Partners";
         $scope.options = {
             chart: {
                 type: 'multiBarHorizontalChart',
                 height: 300,
+                useInteractiveGuideline: false,
+                margin: {
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 120
+                },
                 x: function (d) {
                     return d.label;
                 },
@@ -24,9 +32,268 @@ angular.module("controllers")
                     ticks: 4
                 },
                 stacked: true,
-                showValues: true
+                showValues: true,
+                callback: function (chart) {
+                    chart.multibar.dispatch.on('elementClick', function (e) {
+                        console.log('elementClick in callback', e.data);
+                        $scope.$apply();
+                        $scope.data = e.data.drillDownData;
+                    });
+                },
             }
         };
+        var ATTAdminUserMgmnt = [{
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                    "label": "user/account Administration",
+                    "value": 30
+                                }]
+                        },
+            {
+                "key": "SEV 2",
+                "color": "#F2C80F",
+                "values": [{
+                    "label": "user/account Administration",
+                    "value": 2
+                                }]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                    "label": "user/account Administration",
+                    "value": 68
+                                }]
+                        }];
+        var ATTAdminProOther = [{
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                    "label": "Web Other",
+                    "value": 28
+                                }]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                    "label": "Web Other",
+                    "value": 48
+                                }]
+                        }];
+        var ATTAdminproWeb = [{
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                    "label": "Provisioning Web",
+                    "value": 28,
+                    "drillDownData": ATTAdminProOther
+                                }]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                    "label": "Provisioning Web",
+                    "value": 48
+                                }]
+                        }];
+        var ATTAdminPro = [{
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                        "label": "Provisioning",
+                        "value": 28,
+                        "drillDownData": ATTAdminproWeb
+                                },
+                    {
+                        "label": "User management",
+                        "value": 30,
+                        "drillDownData": ATTAdminUserMgmnt
+                                }]
+                        },
+            {
+                "key": "SEV 2",
+                "color": "#F2C80F",
+                "values": [{
+                        "label": "Provisioning",
+                        "value": 0,
+                        "drillDownData": ATTAdminproWeb
+                                },
+                    {
+                        "label": "User management",
+                        "value": 2,
+                        "drillDownData": ATTAdminUserMgmnt
+                                }]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                        "label": "Provisioning",
+                        "value": 48,
+                        "drillDownData": ATTAdminproWeb
+                                },
+                    {
+                        "label": "User management",
+                        "value": 68,
+                        "drillDownData": ATTAdminUserMgmnt
+                                }]
+                        }
+                          ]
+        var drillDataATT = [{
+                "key": "Outage",
+                "color": "#7F312F",
+                "values": [{
+                        "label": "AT&T Administration",
+                        "value": 0,
+                        "drillDownData": ATTAdminPro
+                                },
+                    {
+                        "label": "AT&T AT&T EoD",
+                        "value": 0
+                                },
+                    {
+                        "label": "AT&T Billing",
+                        "value": 0
+                                },
+                    {
+                        "label": "AT&T IT",
+                        "value": 2
+                                },
+                    {
+                        "label": "AT&T RAN",
+                        "value": 2
+                                }
+                                      ]
+                        }, {
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                        "label": "AT&T Administration",
+                        "value": 58,
+                        "drillDownData": ATTAdminPro
+                                },
+                    {
+                        "label": "AT&T AT&T EoD",
+                        "value": 50
+                                },
+                    {
+                        "label": "AT&T Billing",
+                        "value": 111
+                                },
+                    {
+                        "label": "AT&T IT",
+                        "value": 194
+                                },
+                    {
+                        "label": "AT&T RAN",
+                        "value": 215
+                                }
+                                      ]
+                        },
+            {
+                "key": "SEV 2",
+                "color": "#F2C80F",
+                "values": [{
+                        "label": "AT&T Administration",
+                        "value": 2,
+                        "drillDownData": ATTAdminPro
+                                },
+                    {
+                        "label": "AT&T AT&T EoD",
+                        "value": 131
+                                },
+                    {
+                        "label": "AT&T Billing",
+                        "value": 6
+                                },
+                    {
+                        "label": "AT&T IT",
+                        "value": 89
+                                },
+                    {
+                        "label": "AT&T RAN",
+                        "value": 162
+                                }
+                                      ]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                        "label": "AT&T Administration",
+                        "value": 116,
+                        "drillDownData": ATTAdminPro
+                                },
+                    {
+                        "label": "AT&T AT&T EoD",
+                        "value": 686
+                                },
+                    {
+                        "label": "AT&T Billing",
+                        "value": 374
+                                },
+                    {
+                        "label": "AT&T IT",
+                        "value": 63
+                                },
+                    {
+                        "label": "AT&T RAN",
+                        "value": 836
+                                }
+                                      ]
+                        }
+                          ];
+        var drillDataJasper = [{
+                "key": "Outage",
+                "color": "#7F312F",
+                "values": [{
+                        "label": "Jasper Control Center",
+                        "value": 3
+                                },
+                    {
+                        "label": "Jasper Core",
+                        "value": 0
+                                }]
+                        }, {
+                "key": "SEV 1",
+                "color": "#FD625E",
+                "values": [{
+                        "label": "Jasper Control Center",
+                        "value": 4
+                                },
+                    {
+                        "label": "Jasper Core",
+                        "value": 6
+                                }]
+                        },
+            {
+                "key": "SEV 2",
+                "color": "#F2C80F",
+                "values": [{
+                        "label": "Jasper Control Center",
+                        "value": 11
+                                },
+                    {
+                        "label": "Jasper Core",
+                        "value": 23
+                                }]
+                        },
+            {
+                "key": "SEV 3",
+                "color": "#01B8AA",
+                "values": [{
+                        "label": "Jasper Control Center",
+                        "value": 640
+                                },
+                    {
+                        "label": "Jasper Core",
+                        "value": 195
+                                }]
+                        }
+                          ];
 
         $scope.data = [
             {
@@ -35,11 +302,13 @@ angular.module("controllers")
                 "values": [
                     {
                         "label": "AT&T",
-                        "value": 4
+                        "value": 4,
+                        "drillDownData": drillDataATT
                     },
                     {
                         "label": "Jasper",
-                        "value": 3
+                        "value": 3,
+                        "drillDownData": drillDataJasper
                     }
                 ]
             },
@@ -49,11 +318,13 @@ angular.module("controllers")
                 "values": [
                     {
                         "label": "AT&T",
-                        "value": 628
+                        "value": 628,
+                        "drillDownData": drillDataATT
                     },
                     {
                         "label": "Jasper",
-                        "value": 10
+                        "value": 10,
+                        "drillDownData": drillDataJasper
                     }
                 ]
             },
@@ -63,11 +334,13 @@ angular.module("controllers")
                 "values": [
                     {
                         "label": "AT&T",
-                        "value": 390
+                        "value": 390,
+                        "drillDownData": drillDataATT
                     },
                     {
                         "label": "Jasper",
-                        "value": 34
+                        "value": 34,
+                        "drillDownData": drillDataJasper
                     }
                 ]
             },
@@ -77,13 +350,33 @@ angular.module("controllers")
                 "values": [
                     {
                         "label": "AT&T",
-                        "value": 2105
+                        "value": 2105,
+                        "drillDownData": drillDataATT
                     },
                     {
                         "label": "Jasper",
-                        "value": 832
+                        "value": 832,
+                        "drillDownData": drillDataJasper
                     }
                 ]
             }
-        ]
+        ];
+
+        $scope.openModal = function () {
+            var modalinstances = $uibModal.open({
+                scope: $scope,
+                templateUrl: "templates/chartsModal.html",
+                resolve: {
+                    options: function () {
+                        return $scope.options;
+                    },
+                    data: function () {
+                        return $scope.data;
+                    },
+                    caption: function () {
+                        return $scope.caption;
+                    }
+                }
+            })
+        }
        }]);
